@@ -1,0 +1,4 @@
+﻿  Client.cpp
+e:\bài c\mangmaytinh\englishgame\client\client\client.cpp(119): warning C4018: '<': signed/unsigned mismatch
+  Client.vcxproj -> E:\Bài C\MangMayTinh\EnglishGame\Client\Debug\Client.exe
+  Client.vcxproj -> E:\Bài C\MangMayTinh\EnglishGame\Client\Debug\Client.pdb (Partial PDB)

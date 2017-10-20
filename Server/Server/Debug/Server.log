@@ -1,0 +1,4 @@
+﻿  Database.cpp
+e:\bài c\mangmaytinh\englishgame\server\server\database.cpp(35): warning C4018: '<': signed/unsigned mismatch
+  Server.vcxproj -> E:\Bài C\MangMayTinh\EnglishGame\Server\Debug\Server.exe
+  Server.vcxproj -> E:\Bài C\MangMayTinh\EnglishGame\Server\Debug\Server.pdb (Partial PDB)
