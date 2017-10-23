@@ -8,13 +8,13 @@ Player::Player()
 	Score = -1;
 }
 
-Player::Player(std::string sID)
+Player::Player(CString sID)
 {
 	ID = sID;
 	Score = 0;
 }
 
-std::string Player::GetID()
+CString Player::GetID()
 {
 	return this->ID;
 }

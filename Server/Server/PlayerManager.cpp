@@ -2,14 +2,14 @@
 #include "PlayerManager.h"
 
 
-bool PlayerManager::AddNewPlayer(std::string ID)
+bool PlayerManager::AddNewPlayer(CString ID)
 {
 	Player * newPlayer = new Player(ID);
 	PlayerList.push_back(newPlayer);
 	return true;
 }
 
-bool PlayerManager::CheckID(std::string ID)
+bool PlayerManager::CheckID(CString ID)
 {
 	if (PlayerList.size() == 0) {
 		return true;
@@ -20,6 +20,17 @@ bool PlayerManager::CheckID(std::string ID)
 		}
 	}
 	return true;
+}
+
+void PlayerManager::DeletePlayer(int ID)
+{
+	delete this->PlayerList[ID];
+	this->PlayerList.erase(PlayerList.begin() + ID);
+}
+
+int PlayerManager::getSize()
+{
+	return PlayerList.size();
 }
 
 PlayerManager::PlayerManager()

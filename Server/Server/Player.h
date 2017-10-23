@@ -3,12 +3,12 @@
 #include <string>
 class Player
 {
-	std::string ID;
+	CString ID;
 	int Score;
 public:
 	Player();
-	Player(std::string sID);
-	std::string GetID();
+	Player(CString sID);
+	CString GetID();
 	~Player();
 };
 

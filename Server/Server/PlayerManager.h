@@ -6,8 +6,10 @@ class PlayerManager
 {
 	std::vector<Player*> PlayerList;
 public:
-	bool AddNewPlayer(std::string ID);
-	bool CheckID(std::string ID);
+	bool AddNewPlayer(CString ID);
+	bool CheckID(CString ID);
+	void DeletePlayer(int ID);
+	int getSize();
 	PlayerManager();
 	~PlayerManager();
 };

@@ -2,15 +2,21 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <time.h>
 class Question
 {
-	std::vector<std::string> answerList;
 	char correctAnswer;
-	std::string question;
+	CString question;
 public:
 	Question();
-	Question(std::vector<std::string> list,
-		char correct, std::string question);
+	Question(CStringList list,
+		char correct, CString question);
+	Question(char correct, CString question);
+	void SetAnswerList(CStringList *answertList);
+	CString getQuestion();
+	void SerializeAnswerList(CArchive &ar);
+	char getCorrect();
+	CStringList answerCList;
 	~Question();
 };
 class Database
@@ -19,6 +25,19 @@ class Database
 public:
 	Database();
 	Database(std::string filename);
+	Question* GetRandomQuestion();
+	TCHAR* convert(std::string str)
+	{
+		TCHAR * res = new TCHAR[100];
+		int count = 0;
+		for (auto i : str) {
+			res[count] = i;
+			count++;
+		}
+		res[count] = 0;
+		return res;
+	}
 	~Database();
 };
+
 
