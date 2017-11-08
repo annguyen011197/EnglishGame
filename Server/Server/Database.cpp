@@ -8,27 +8,37 @@ Database::Database()
 
 Database::Database(std::string filename)
 {
+	int index = 0;
+	cvt = new TCHAR[100];
 	std::fstream f;
 	f.open(filename, std::ios_base::in);
-	int count;
-	std::string temp;
-	f >> count;
-	for(int i=0;i<count;i++) {
+	if (f.is_open()) {
+		int count;
+		std::string temp;
 		std::string question;
-		CStringList *answer = new CStringList;
 		char correct;
 		std::getline(f, temp);
-		std::getline(f, question);
-		for (int j = 0; j < 4; j++) {
+		count = std::stoi(temp, NULL, 10);
+		CStringList *answer = new CStringList;
+		for (int i = 0; i < count; i++) {
+			answer->RemoveAll();
+			std::getline(f, question);
+			for (int j = 0; j < 4; j++) {
+				std::getline(f, temp);
+				convert(cvt, temp);
+				answer->AddTail(cvt);
+			}
 			std::getline(f, temp);
-			answer->AddTail(convert(temp));
+			correct = temp[0];
+			convert(cvt, question);
+			Question *newQuestion = new Question(correct, cvt, index);
+			newQuestion->SetAnswerList(answer);
+			list.push_back(newQuestion);
+			index++;
 		}
-		f >> correct;
-		Question *newQuestion = new Question( correct, convert(question));
-		newQuestion->SetAnswerList(answer);
-		list.push_back(newQuestion);
-		delete answer;
+		answer->~CStringList();
 	}
+	f.close();
 }
 
 Question * Database::GetRandomQuestion()
@@ -53,7 +63,8 @@ Question::Question()
 	question = "";
 }
 
-Question::Question(CStringList list, char correct, CString Question)
+Question::Question(CStringList list,
+	char correct, CString Question, int _index)
 {
 
 	for (POSITION i = list.GetHeadPosition(); i !=NULL;) {
@@ -61,12 +72,14 @@ Question::Question(CStringList list, char correct, CString Question)
 	}
 	correctAnswer = correct;
 	question = Question;
+	index = _index;
 }
 
-Question::Question(char correct, CString _question)
+Question::Question(char correct, CString _question, int _index)
 {
 	correctAnswer = correct;
 	question = _question;
+	index = _index;
 }
 
 void Question::SetAnswerList(CStringList *answertList)
@@ -94,4 +107,19 @@ char Question::getCorrect()
 
 Question::~Question()
 {
+}
+
+void Database::convert(TCHAR* res, std::string str)
+{
+	int count = 0;
+	for (auto i : str) {
+		res[count] = i;
+		count++;
+	}
+	res[count] = 0;
+}
+
+int Database::getSize()
+{
+	return list.size();
 }

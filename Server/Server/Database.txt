@@ -1,73 +1,145 @@
-12
-aaaaaa
-A.aa
-B.bb
-C.cc
-D.dd
+25
+An organisation uses a computer to store and process information because it hopes for speed. accuracy. efficiency. economy etc. beyond what could be achieved using clerical methods. the objectives of using a DBMS must in ......... be the same although the justifications may be more indirect.
+A.essence
+B.quality
+C.spirit
+D.substance
 a
-bbbbbb
-A.aa
-B.bb
-C.cc
-D.dd
+When I bought the shoes, they ___________ me well but later they were too tight at home
+A.matched
+B.fitted
+C.suited
+D.went with
 b
-ccccc
-A.aa
-B.bb
-C.cc
-D.dd
-c
-ddddd
-A.aa
-B.bb
-C.cc
-D.dd
-d
-aaaaad
-A.aa
-B.bb
-C.cc
-D.dd
+The ___________ people he looks up to are his grandparents.
+A.just
+B.only
+C.were	
+D.bare
 a
-bbbbba
-A.aa
-B.bb
-C.cc
-D.dd
-b
-ccccb
-A.aa
-B.bb
-C.cc
-D.dd
-c
-ddddc
-A.aa
-B.bb
-C.cc
-D.dd
+My car is not ___________ . It’s always letting me down.
+A.believable
+B.reliable
+C.trusty
+D.unreliable
 d
-aaaaad
-A.aa
-B.bb
-C.cc
-D.dd
-A
-bbbbbc
-A.aa
-B.bb
-C.cc
-D.dd
+A few Minister for Agriculture has been ___________
+A.determined
+B.admitted
+C.assumed	
+D.appointed
+a
+You have had a ___________ escape. I thought you’d never get away from him
+A.near
+B.close
+C.narrow
+D.short
 b
-ccccd
-A.aa
-B.bb
-C.cc
-D.dd
+The passport she carried was___________
+A.false	
+B.imitation	
+C.artificial
+D.untrue
 c
-dddda
-A.aa
-B.bb
-C.cc
-D.dd
+ ___________ he was sick, he still turned up for his guitar lesson.
+A.Because
+B.Since
+C.Although
+D.Despite
 d
+We have just been told some ___________ news.
+A.surprised
+B.surprising
+C.astonished
+D.astonishing
+a
+If I knew what ___________ I would tell you
+A. is the time 
+B. was the time 
+C. time is it 
+D. the time was
+b
+She had changed so much that ___________ anyone recognised her
+A. almost 
+B. not 
+C. hardly 
+D. nearly
+c
+John is going to get ___________ Lisa.
+A. marry with 
+B. marry to 
+C. married with 
+D. married to
+d
+The university is proud of their students, ________ earn national recognition.
+A. many of who 
+B. many of whom 
+C. that 
+D. whom
+a
+He jumped into the river with ___________ clothes on.
+A. all his 
+B. his whole 
+C. the whole 
+D. his all
+a
+That was not a true story. I just ___________ it up.
+A. put 
+B. made 
+C. got 
+D. did
+a
+The number of tourists ___________ this year as a result of the good weather
+A. doubled 
+B. doubles 
+C. have doubled 
+D. has doubled
+a
+I wish Janet ___________ to the meeting this afternoon
+A. could come 
+B. can come 
+C. came 
+D. will come
+a
+Then September 11, 2001 came as a remarkable point in American history when the Twin Towers ___ again.
+A. were attacking 
+B. were attacked 
+C. had attacked 
+D. had attack
+a
+He would rather ___________ a hot beverage during a meal
+A. I not have 
+B. I did not have 
+C. I do not have 
+D. I had not
+a
+ ___________I love you, I cannot let you have any more money.
+A. Much as 
+B. Whether 
+C. Also 
+D. However
+a
+It was in this house ___________
+A. where I was born 
+B. in which I was born 
+C. that I was born 
+D. I was born in
+a
+___________ your raincoat, Its begun to rain.
+A. Wear 
+B. Put on
+C. Take off 
+D. Buy
+a
+What are you doing ? “___________”
+A. No 
+B. None 
+C. Not 
+D. Nothing
+a
+Mark was not there last night. No, ___________
+A. I was not either 
+B. either was I 
+C. I was not too 
+D. neither I was
+a

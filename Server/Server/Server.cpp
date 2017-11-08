@@ -26,13 +26,14 @@ using namespace std;
 
 void MainFunc();
 UINT __cdecl ClientFunc(LPVOID pParam);
-int GetMessageClient(char* str);
 //byte* Serialize(Message* msg, int &length);
 Message* DeSerialize(byte* data, int len);
 //CStringList* SerializQuestion(Question* quest, int &length);
 byte* Serialize(int &length, CStringList* list, Message* msg);
 CStringList* SerializQuestionToCStringList(Question* quest);
 TCHAR* convert(string str);
+bool checkQList(Question* q, vector<Question*> qList);
+
 
 int main()
 {
@@ -85,14 +86,15 @@ void MainFunc() {
 	sServer->Listen();
 	while (sServer->Accept(*sClient)) {
 		cout << "Mot ket noi moi \n";
-		mess->SetNewMessage(CM_PRINT, _T("Da ket noi"));
+		mess->SetNewMessage(CM_PRINT, _T("Da ket noi\n Chao mung ban den voi English Game\n"));
 		int len = 0;
 		CStringList * tempList = new CStringList;
 		tempList->AddTail(L".");
 		byte* data = Serialize(len, tempList, mess);
+		cout << len;
 		sClient->Send(data, len);
 		delete data;
-		delete tempList;
+		tempList->~CStringList();
 		SOCKET  hSocket = sClient->Detach();
 		AfxBeginThread(
 			ClientFunc,
@@ -115,6 +117,7 @@ UINT ClientFunc(LPVOID pParam)
 	sClient->Attach(hSocket);
 	Message * mess = new Message;
 	Database * database = new Database("Database.txt");
+	vector<Question*> listQ;
 	byte* data = new byte;
 	CStringList * tempList = new CStringList;
 	tempList->AddTail(L".");
@@ -159,16 +162,14 @@ UINT ClientFunc(LPVOID pParam)
 			int wrong = 0;
 			while (1) {
 				Sleep(1000);
-				mess->SetNewMessage(CM_PLAY, _T("."));
-				data = Serialize(len, tempList, mess);
-				sClient->Send(data, len);
-				cout << "Sending Question";
-				Sleep(1000);
+				cout << "Sending Question\n";
 				Question * quest = new Question;
-				quest = database->GetRandomQuestion();
-				mess->SetNewMessage(CM_QUEST, L"");
+				do {
+					quest = database->GetRandomQuestion();
+				} while (checkQList(quest, listQ));
+				listQ.push_back(quest);
+				mess->SetNewMessage(CM_PLAY, L"");
 				data = Serialize(len, SerializQuestionToCStringList(quest), mess);
-				//data = SerializQuestionToCStringList(quest);
 				sClient->Send(data, len);
 				Sleep(500);
 				len = sClient->Receive(data, 256);
@@ -178,10 +179,12 @@ UINT ClientFunc(LPVOID pParam)
 					checkflag = 0;
 					cout << "\n Closing 1 socket \n";
 					pmList->DeletePlayer(ID);
+					tempList->~CStringList();
 					delete database;
 					delete data;
 					delete mess;
 					delete sClient;
+					delete quest;
 					return 0;
 					break;
 				}
@@ -189,10 +192,12 @@ UINT ClientFunc(LPVOID pParam)
 					char answerChar = mess->GetInfo()[0];
 					if (answerChar == quest->getCorrect() || answerChar + 32 == quest->getCorrect()) {
 						score++;
+						wrong = 0;
 						string temp = "Tra loi dung +1 d \nBan hien co:" + to_string(score) + " d";
 						mess->SetNewMessage(CM_PRINT, convert(temp));
 						data = Serialize(len, tempList, mess);
 						sClient->Send(data, len);
+						Sleep(1000);
 					}
 					else {
 						score--;
@@ -201,6 +206,7 @@ UINT ClientFunc(LPVOID pParam)
 						mess->SetNewMessage(CM_PRINT, convert(temp));
 						data = Serialize(len,tempList,mess);
 						sClient->Send(data, len);
+						Sleep(1000);
 					}
 
 					if (wrong == 3 || score <= 0) {
@@ -218,21 +224,41 @@ UINT ClientFunc(LPVOID pParam)
 						pmList->DeletePlayer(ID);
 						break;
 					}
-				}
 
-				//future<bool> fut = async([hSocket,&score](SOCKET socket,int score,Question* quest,byte *data) {
-				//	CSocket sClient;
-				//	sClient.Attach(socket);
-				//	int len = 0;
-				//	Message * mess = new Message;
-				//	}
-				//	delete mess;
-				//	return true;
-				//}, hSocket,score,quest,data);
-				//chrono::milliseconds span(1000);
-				//while (fut.wait_for(span)==future_status::timeout) {
-				//	cout << "Doi cau trl";
-				//}
+					if (listQ.size() == database->getSize()) {
+						Sleep(500);
+						string temp = "Ban da hoan tat so cau hoi\n Ban co" + to_string(score) + " d";
+						mess->SetNewMessage(CM_PRINT, convert(temp));
+						data = Serialize(len, tempList, mess);
+						Sleep(500);
+						sClient->Send(data, len);
+						Sleep(500);
+						mess->SetNewMessage(CM_EXIT, _T(""));
+						data = Serialize(len, tempList, mess);
+						sClient->Send(data, len);
+						Sleep(1000);
+						sClient->Close();
+						pmList->DeletePlayer(ID);
+						break;
+					}
+
+					if (answerChar == '\0') {
+						sClient->Close();
+						checkflag = 0;
+						cout << "\n Closing 1 socket \n";
+						pmList->DeletePlayer(ID);
+						tempList->~CStringList();
+						delete database;
+						delete data;
+						delete mess;
+						delete sClient;
+						closesocket(hSocket);
+						delete quest;
+						return 0;
+						break;
+					}
+
+				}
 			}
 			break;
 		}
@@ -247,32 +273,9 @@ UINT ClientFunc(LPVOID pParam)
 	delete data;
 	delete mess;
 	delete sClient;
+	closesocket(hSocket);
 	return 0;
 }
-
-int GetMessageClient(char * str)
-{
-	string res;
-	for (int i = 0; i < 3; ++i) {
-		res.push_back(str[i]);
-	}
-	if (res == "REG") {
-		return CM_REG;
-	}
-	return 0;
-}
-
-/*byte* Serialize(Message* msg, int &length) {
-	CMemFile memfile;
-	CArchive archive(&memfile, CArchive::store);
-	archive << msg->GetMess();
-	archive << msg->GetInfo();
-	archive.Close();
-	length = (INT)memfile.GetLength();
-	BYTE* data = memfile.Detach();
-	memfile.Abort();
-	return data;
-}*/
 
 Message* DeSerialize(byte* data, int len) {
 	CStringList *list = new CStringList;
@@ -313,6 +316,14 @@ CStringList* SerializQuestionToCStringList(Question* quest) {
 	return serialList;
 }
 
+bool checkQList(Question* q, vector<Question*> qList) {
+	for (auto i : qList) {
+		if (i->index == q->index) {
+			return true;
+		}
+	}
+	return false;
+}
 
 TCHAR* convert(string str)
 {

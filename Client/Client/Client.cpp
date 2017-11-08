@@ -84,7 +84,7 @@ void MainFunc()
 		BYTE* data = new BYTE[1000];
 		int check = 1;
 		while (check) {
-			int len = sClient.Receive(data, 100);
+			int len = sClient.Receive(data, 1000);
 			mess = DeSerialize(data, len, templist);
 			switch (mess->GetMess()) {
 			case CM_PRINT:
@@ -120,11 +120,11 @@ void MainFunc()
 			}
 			case CM_PLAY:
 			{
-				int len = sClient.Receive(data, 1000);
 				Question * quest = new Question;
-				mess = DeSerialize(data, len, list);
+				DeSerialize(data, len, list);
 				quest->SetQuestion(list);
 				wcout << quest->getQuestion().GetString() << endl;
+				wcout.clear();
 				for (POSITION i = quest->answerCList.GetHeadPosition();
 					i != NULL;) {
 					wcout << quest->answerCList.GetNext(i).GetString() << endl;
@@ -138,9 +138,9 @@ void MainFunc()
 				string a;
 				a.push_back(ans);
 				mess->SetNewMessage(CM_PLAY, convert(a));
+				templist->RemoveAll();
 				data = Serialize(len, templist, mess);
 				sClient.Send(data, len);
-				Sleep(1000);
 				delete quest;
 				break;
 			}
@@ -153,6 +153,9 @@ void MainFunc()
 		}
 		}
 		delete mess;
+	}
+	else {
+		cout << "Xuat hien loi khi ket noi \n Thoat chuong trinh \n";
 	}
 }
 
